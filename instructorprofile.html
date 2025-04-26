@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Profile | Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #6c28d0;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary), #1a2b3c);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 1.5rem;
+            top: 1.5rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--secondary);
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .profile-title {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .profile-location {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .profile-body {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .profile-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item i {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            width: 20px;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill {
+            background: var(--secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .about-text {
+            line-height: 1.8;
+        }
+
+        .experience-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .experience-company {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .experience-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .experience-description {
+            line-height: 1.7;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .course-card {
+            border: 1px solid #eee;
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .course-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .course-info {
+            padding: 1rem;
+        }
+
+        .course-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--gray);
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: #f1c40f;
+        }
+
+        .rating-value {
+            font-weight: 600;
+        }
+
+        .rating-count {
+            color: var(--gray);
+        }
+
+        .review {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-author {
+            font-weight: 600;
+        }
+
+        .review-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .review-text {
+            line-height: 1.7;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #8a4cea;
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 50rem;
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .progress-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--secondary);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <a href="instructors.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                     alt="Instructor" class="profile-img">
+                <h1 class="profile-name">ADITHYA P T</h1>
+                <p class="profile-title">Senior Data Analyst</p>
+                <div class="profile-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Bangalore, India</span>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="profile-body">
+                <aside class="sidebar">
+                    <div class="section">
+                        <h3 class="section-title">Contact</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>adithya.pt@example.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 9876543210</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-globe"></i>
+                            <span>adithya-analytics.com</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">Skills</h3>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Python</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>SQL</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Tableau</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Machine Learning</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">Education</h3>
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="experience-title">MSc Computer Science</div>
+                                    <div class="experience-company">Indian Institute of Science</div>
+                                </div>
+                                <div class="experience-date">2015-2017</div>
+                            </div>
+                        </div>
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="experience-title">BSc Mathematics</div>
+                                    <div class="experience-company">University of Delhi</div>
+                                </div>
+                                <div class="experience-date">2012-2015</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">Certifications</h3>
+                        <div class="experience-item">
+                            <div class="experience-title">Google Data Analytics</div>
+                            <div class="experience-date">2020</div>
+                        </div>
+                        <div class="experience-item">
+                            <div class="experience-title">AWS Certified Data Analytics</div>
+                            <div class="experience-date">2019</div>
+                        </div>
+                    </div>
+                </aside>
+
+                <main class="main-content">
+                    <section class="section">
+                        <h2 class="section-title">About Me</h2>
+                        <p class="about-text">
+                            I am a passionate data analyst with over 7 years of experience in transforming complex data into actionable insights. My expertise lies in data visualization, predictive modeling, and business intelligence. I have worked with multinational corporations and startups alike, helping them make data-driven decisions that drive growth and efficiency.
+                        </p>
+                        <p class="about-text">
+                            My approach combines technical skills with business acumen to deliver solutions that are both sophisticated and practical. When I'm not crunching numbers, you can find me mentoring aspiring data professionals, contributing to open-source projects, or exploring the latest developments in AI and machine learning.
+                        </p>
+                    </section>
+
+                    <section class="section">
+                        <h2 class="section-title">Experience</h2>
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="experience-title">Lead Data Analyst</div>
+                                    <div class="experience-company">TechSolutions Inc.</div>
+                                </div>
+                                <div class="experience-date">2020-Present</div>
+                            </div>
+                            <div class="experience-description">
+                                Leading a team of 5 analysts to deliver data insights for product development and marketing strategies. Developed predictive models that improved customer retention by 18%.
+                            </div>
+                        </div>
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="experience-title">Senior Data Analyst</div>
+                                    <div class="experience-company">Global Analytics</div>
+                                </div>
+                                <div class="experience-date">2017-2020</div>
+                            </div>
+                            <div class="experience-description">
+                                Created dashboards and reports that became the standard for executive decision-making. Automated reporting processes saving 20+ hours per week.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section">
+                        <h2 class="section-title">Featured Courses</h2>
+                        <div class="courses-grid">
+                            <div class="course-card">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                     alt="Data Analysis Fundamentals" class="course-img">
+                                <div class="course-info">
+                                    <h3 class="course-title">Data Analysis Fundamentals</h3>
+                                    <div class="course-meta">
+                                        <span><i class="far fa-clock"></i> 12 Weeks</span>
+                                        <span class="badge">Beginner</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="course-card">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                     alt="Python for Data Science" class="course-img">
+                                <div class="course-info">
+                                    <h3 class="course-title">Python for Data Science</h3>
+                                    <div class="course-meta">
+                                        <span><i class="far fa-clock"></i> 8 Weeks</span>
+                                        <span class="badge">Intermediate</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section">
+                        <div class="tabs">
+                            <button class="tab-btn active" data-tab="reviews">Reviews</button>
+                            <button class="tab-btn" data-tab="contact">Contact</button>
+                        </div>
+
+                        <div id="reviews" class="tab-content active">
+                            <div class="rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-value">4.7</span>
+                                <span class="rating-count">(128 reviews)</span>
+                            </div>
+
+                            <div class="review">
+                                <div class="review-header">
+                                    <span class="review-author">Rahul Sharma</span>
+                                    <span class="review-date">March 15, 2023</span>
+                                </div>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="review-text">
+                                    Adithya's approach to teaching complex data concepts is exceptional. His real-world examples made the material much easier to understand. I've already applied several techniques at work with great results!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="contact" class="tab-content">
+                            <form id="contact-form" class="contact-form">
+                                <div class="form-group">
+                                    <label for="name" class="form-label">Your Name</label>
+                                    <input type="text" id="name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" id="email" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea id="message" class="form-control" required></textarea>
+                                </div>
+                                <button type="submit" class="submit-btn">Send Message</button>
+                            </form>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Form submission
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Get form values
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+
+                    // Here you would typically send the data to a server
+                    console.log('Form submitted:', { name, email, message });
+
+                    // Show success message
+                    alert('Thank you for your message! I will get back to you soon.');
+                    contactForm.reset();
+
+                    // Switch back to reviews tab
+                    document.querySelector('.tab-btn[data-tab="reviews"]').click();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses - Skillora</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #2c3e50;
+    }
+
+    /* أنماط الصفحة الرئيسية */
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .page-header h1 {
+      font-size: 36px;
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    .page-header p {
+      color: #7f8c8d;
+      font-size: 18px;
+    }
+
+    /* فلتر الكورسات */
+    .courses-filter {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      padding: 8px 20px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background-color: #6c28d0;
+      color: white;
+      border-color: #6c28d0;
+    }
+
+    /* شبكة الكورسات */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .course-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .course-image {
+      height: 160px;
+      overflow: hidden;
+    }
+
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .course-card:hover .course-image img {
+      transform: scale(1.05);
+    }
+
+    .course-info {
+      padding: 20px;
+    }
+
+    .course-category {
+      display: inline-block;
+      background-color: #e8f4fc;
+      color: #6c28d0;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .course-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .course-instructor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+
+    .instructor-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #6c28d0;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .course-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    .course-price {
+      font-weight: bold;
+      color: #2c3e50;
+      font-size: 18px;
+    }
+
+    .course-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #f39c12;
+    }
+
+    .course-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: #6c28d0;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #8a4cea;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #6c28d0;
+      color: #6c28d0;
+    }
+
+    .btn-outline:hover {
+      background-color: #f0f8ff;
+    }
+
+    /* قسم الكورسات المميزة */
+    .featured-courses {
+      margin: 60px 0;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: #6c28d0;
+    }
+
+    /* أنماط للجوال */
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 28px;
+      }
+
+      .courses-filter {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .filter-btn {
+        width: 100%;
+        max-width: 200px;
+      }
+
+      .course-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+
+
+
+<body>
+  <!-- سيتم استدعاء الـ navbar هنا -->
+  <div id="navbar-container"></div>
+
+  <!-- محتوى الصفحة -->
+  <div class="container">
+    <header class="page-header">
+      <h1>Explore Our Courses</h1>
+      <p>Learn new skills with our high-quality courses taught by industry experts</p>
+    </header>
+
+    <!-- فلتر الكورسات -->
+    <div class="courses-filter">
+      <button class="filter-btn active" data-filter="all">All Courses</button>
+      <button class="filter-btn" data-filter="web">Web Development</button>
+      <button class="filter-btn" data-filter="mobile">Mobile Development</button>
+      <button class="filter-btn" data-filter="data">Data Science</button>
+      <button class="filter-btn" data-filter="design">Design</button>
+      <button class="filter-btn" data-filter="business">Business</button>
+    </div>
+
+    <!-- شبكة الكورسات -->
+    <div class="courses-grid">
+      <!-- كورس 1 -->
+      <div class="course-card" data-category="web">
+        <div class="course-image">
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="JavaScript Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Web Development</span>
+          <h3 class="course-title">Modern JavaScript From Scratch</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">JS</div>
+            <span>John Smith</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.8 (1.2k)</span>
+            </div>
+            <div class="course-price">$49.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline"><i class="far fa-heart"></i> Save</button>
+            <button class="btn btn-primary">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- كورس 2 -->
+      <div class="course-card" data-category="web">
+        <div class="course-image">
+          <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Python Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Web Development</span>
+          <h3 class="course-title">Python for Beginners</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">PD</div>
+            <span>Paul Davis</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.7 (980)</span>
+            </div>
+            <div class="course-price">$39.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline"><i class="far fa-heart"></i> Save</button>
+            <button class="btn btn-primary">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- كورس 3 -->
+      <div class="course-card" data-category="mobile">
+        <div class="course-image">
+          <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="React Native Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Mobile Development</span>
+          <h3 class="course-title">React Native - The Practical Guide</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">AR</div>
+            <span>Anna Robinson</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.9 (1.5k)</span>
+            </div>
+            <div class="course-price">$59.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline"><i class="far fa-heart"></i> Save</button>
+            <button class="btn btn-primary">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- كورس 4 -->
+      <div class="course-card" data-category="data">
+        <div class="course-image">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Data Science Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Data Science</span>
+          <h3 class="course-title">Data Science A-Z™</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">KT</div>
+            <span>Kate Thompson</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.6 (850)</span>
+            </div>
+            <div class="course-price">$69.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline"><i class="far fa-heart"></i> Save</button>
+            <button class="btn btn-primary">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- كورس 5 -->
+      <div class="course-card" data-category="design">
+        <div class="course-image">
+          <img src="https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="UI/UX Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Design</span>
+          <h3 class="course-title">UI/UX Design Fundamentals</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">LM</div>
+            <span>Lisa Morgan</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.5 (720)</span>
+            </div>
+            <div class="course-price">$44.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline"><i class="far fa-heart"></i> Save</button>
+            <button class="btn btn-primary">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- كورس 6 -->
+      <div class="course-card" data-category="business">
+        <div class="course-image">
+          <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Business Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Business</span>
+          <h3 class="course-title">Digital Marketing Masterclass</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">DW</div>
+            <span>David Wilson</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.7 (1.1k)</span>
+            </div>
+            <div class="course-price">$54.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline"><i class="far fa-heart"></i> Save</button>
+            <button class="btn btn-primary">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- قسم الكورسات المميزة -->
+    <section class="featured-courses">
+      <h2 class="section-title">Featured Courses</h2>
+      <div class="courses-grid">
+        <!-- كورس مميز 1 -->
+        <div class="course-card" data-category="web">
+          <div class="course-image">
+            <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Advanced JavaScript Course">
+          </div>
+          <div class="course-info">
+            <span class="course-category">Web Development</span>
+            <h3 class="course-title">Advanced JavaScript Concepts</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">JS</div>
+              <span>John Smith</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i class="fas fa-star"></i>
+                <span>4.9 (2.3k)</span>
+              </div>
+              <div class="course-price">$79.99</div>
+            </div>
+            <div class="course-actions">
+              <button class="btn btn-outline"><i class="far fa-heart"></i> Save</button>
+              <button class="btn btn-primary">Enroll Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- كورس مميز 2 -->
+        <div class="course-card" data-category="data">
+          <div class="course-image">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Machine Learning Course">
+          </div>
+          <div class="course-info">
+            <span class="course-category">Data Science</span>
+            <h3 class="course-title">Machine Learning A-Z™</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">KT</div>
+              <span>Kate Thompson</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i class="fas fa-star"></i>
+                <span>4.8 (1.8k)</span>
+              </div>
+              <div class="course-price">$89.99</div>
+            </div>
+            <div class="course-actions">
+              <button class="btn btn-outline"><i class="far fa-heart"></i> Save</button>
+              <button class="btn btn-primary">Enroll Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- سيتم استدعاء الـ footer هنا -->
+  <div id="footer-container"></div>
+
+  <!-- JavaScript -->
+  <script>
+    // فلترة الكورسات بناءً على البارامتر في URL
+    document.addEventListener('DOMContentLoaded', function() {
+      // الحصول على البارامتر من URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoryParam = urlParams.get('category');
+
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const courseCards = document.querySelectorAll('.course-card');
+
+      // إذا كان هناك بارامتر في URL، قم بتفعيل الفلتر المناسب
+      if (categoryParam) {
+        filterBtns.forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.getAttribute('data-filter') === categoryParam) {
+            btn.classList.add('active');
+          }
+        });
+
+        courseCards.forEach(card => {
+          if (categoryParam === 'all' || card.getAttribute('data-category') === categoryParam) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      // فلترة الكورسات عند النقر على الأزرار
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // إزالة الفعال من جميع الأزرار
+          filterBtns.forEach(b => b.classList.remove('active'));
+          // إضافة الفعال للزر المضغوط
+          this.classList.add('active');
+
+          const filter = this.getAttribute('data-filter');
+
+          // تحديث URL بدون إعادة تحميل الصفحة
+          const newUrl = window.location.pathname + '?category=' + filter;
+          window.history.pushState({ path: newUrl }, '', newUrl);
+
+          courseCards.forEach(card => {
+            if (filter === 'all' || card.getAttribute('data-category') === filter) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // محاكاة حفظ الكورس
+      const saveBtns = document.querySelectorAll('.btn-outline');
+      saveBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const icon = this.querySelector('i');
+          if (icon.classList.contains('far')) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            this.style.color = '#e74c3c';
+          } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            this.style.color = '#3498db';
+          }
+        });
+      });
+
+      // محاكاة التسجيل في الكورس
+      const enrollBtns = document.querySelectorAll('.btn-primary');
+      enrollBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          alert('Course enrollment functionality will be implemented soon!');
+        });
+      });
+    });
+  </script>
+
+  <script>
+  // Load navbar
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('nav.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar-container').innerHTML = data;
+
+        // Dispatch event when navbar is loaded
+        const event = new Event('navbarLoaded');
+        document.dispatchEvent(event);
+
+        // Load navbar.js if not already loaded
+        if (!document.querySelector('script[src="navbar.js"]')) {
+          const script = document.createElement('script');
+          script.src = 'nav.js';
+          document.body.appendChild(script);
+        }
+      });
+  });
+
+</script>
+
+
+
+
+
+
+
+
+
+  <div id="footer-placeholder"></div>
+
+  <script>
+    fetch("footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer-placeholder").innerHTML = data;
+      });
+  </script>
+</body>
+</html>

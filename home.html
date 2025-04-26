@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skillora - Learn Programming</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+
+/* Main Content */
+.main-content {
+    padding: 50px 5%;
+}
+
+.hero {
+    text-align: center;
+    padding: 80px 0;
+    background-image: url('photos/banner-1.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 50vh;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(169, 169, 169, 0.5);
+}
+
+/* طبقة التعتيم الرصاصي على كامل الصورة */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(96, 96, 96, 0); /* لون رصاصي مع 60% شفافية */
+    z-index: 1;
+}
+
+/* محتوى الهيرو (النص) */
+.hero-content {
+    position: relative;
+    z-index: 2; /* للتأكد أن النص فوق طبقة التعتيم */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px; /* زيادة المساحة حول النص */
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 15px 25px;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.3); /* طبقة شفافة إضافية للنص */
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    color: #ffffff;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    padding: 12px 20px;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.3); /* طبقة شفافة إضافية للنص */
+    border-radius: 8px;
+    line-height: 1.6;
+}
+
+
+
+.section.plans {
+  padding: 40px 0;
+  background-color: #f9f9f9;
+  direction: rtl;
+}
+
+.section.plans .container {
+  max-width: 1140px;
+  margin: auto;
+  padding: 0 15px;
+}
+
+.section.plans .head-with-desc {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #222;
+  text-align: center;
+  font-weight: bold;
+}
+
+.section.plans .head-with-desc span {
+  display: block;
+  font-size: 16px;
+  color: #555;
+  margin-top: 10px;
+  font-weight: normal;
+}
+
+.section.plans .the-plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  text-align: center;
+}
+
+.section.plans .the-plans a {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+}
+
+.section.plans .the-plans a:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.section.plans .the-plans img {
+  max-width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.section.plans .the-plans span {
+  font-size: 16px;
+  font-weight: 600;
+  color: #6c28d0; /* أو أي لون رئيسي بتحبه */
+}
+
+
+.instructors-section {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.card {
+  width: 18rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+    margin-top: 10px;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.btn-primary {
+  background-color: #6c28d0;
+  border: none;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: #8a4cea;
+}
+
+    </style>
+
+
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero">
+            <h1>Start Your Learning Journey Today</h1>
+            <p>Join thousands of students worldwide advancing their careers</p>
+        </section>
+    </main>
+
+    <!-- Start Study Plans Section -->
+<!-- Start Study Plans Section -->
+<div class="section plans">
+  <div class="container">
+    <h2 class="head-with-desc">
+      Courses <span>Study plan for available programming languages</span>
+    </h2>
+    <div class="the-plans">
+      <a target="_blank" href="#" title="HTML">
+        <img src="photos/html.png" alt="HTML">
+        <span>HTML</span>
+      </a>
+      <a target="_blank" href="#" title="CSS">
+        <img src="photos/css.png" alt="CSS">
+        <span>CSS</span>
+      </a>
+      <a target="_blank" href="#" title="JavaScript">
+        <img src="photos/javascript.png" alt="JavaScript">
+        <span>JavaScript</span>
+      </a>
+      <a target="_blank" href="#" title="C++">
+        <img src="photos/cpp.png" alt="C++">
+        <span>C++</span>
+      </a>
+      <a target="_blank" href="#" title="PHP">
+        <img src="photos/php.png" alt="PHP">
+        <span>PHP</span>
+      </a>
+      <a target="_blank" href="#" title="Python">
+        <img src="photos/python.png" alt="Python">
+        <span>Python</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- End Study Plans Section -->
+
+<div class="instructors-section">
+    <h2 class="head-with-desc">
+      Our Instructor <span></span>
+    </h2>
+  <div class="cards-container">
+    <div class="card">
+      <img src="#" class="card-img-top" alt="Instructor 1">
+      <div class="card-body">
+        <h5 class="card-title">Ahmed Samir</h5>
+        <p class="card-text">Expert in Front-End Development and UI/UX design.</p>
+        <a href="profile1.html" class="btn btn-primary">View Profile</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="#" class="card-img-top" alt="Instructor 2">
+      <div class="card-body">
+        <h5 class="card-title">Sara Khaled</h5>
+        <p class="card-text">Specialist in JavaScript and modern frameworks.</p>
+        <a href="profile2.html" class="btn btn-primary">View Profile</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="#" class="card-img-top" alt="Instructor 3">
+      <div class="card-body">
+        <h5 class="card-title">Mohamed Adel</h5>
+        <p class="card-text">Back-End engineer with deep PHP & Python experience.</p>
+        <a href="profile3.html" class="btn btn-primary">View Profile</a>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+<script>
+  fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer-placeholder").innerHTML = data;
+    });
+</script>
+
+
+
+<script>
+  // Load navbar
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('nav.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar-container').innerHTML = data;
+
+        // Dispatch event when navbar is loaded
+        const event = new Event('navbarLoaded');
+        document.dispatchEvent(event);
+
+        // Load navbar.js if not already loaded
+        if (!document.querySelector('script[src="navbar.js"]')) {
+          const script = document.createElement('script');
+          script.src = 'nav.js';
+          document.body.appendChild(script);
+        }
+      });
+  });
+</script>
+</body>
+</html>
