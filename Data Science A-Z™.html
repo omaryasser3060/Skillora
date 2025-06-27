@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Dashboard | Skillora</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #6c28d0;
+            --secondary-color: #a335f1;
+            --light-bg: #f9f9f9;
+            --success-color: #28a745;
+            --gold-color: #d4af37;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+        }
+
+        .course-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .course-header h1 {
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+
+        .course-header .lead {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .action-buttons .btn {
+            margin: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-quiz {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+        }
+
+        .btn-assignment {
+            background-color: #4ecdc4;
+            color: white;
+            border: none;
+        }
+
+        .btn-quiz:hover, .btn-assignment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .materials-section {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .material-card {
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: #fafafa;
+            border-radius: 8px;
+        }
+
+        .material-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .material-card .btn {
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .progress-section {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+
+        .progress-container {
+            margin-top: 1.5rem;
+        }
+
+        .progress-title {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 12px;
+            border-radius: 6px;
+            background-color: #e9ecef;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.5s ease-in-out;
+        }
+
+        .module-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .module-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .module-item.completed .module-title {
+            color: var(--success-color);
+        }
+
+        .module-item.completed .check-icon {
+            color: var(--success-color);
+        }
+
+        .check-icon {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .btn-certificate {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-certificate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-certificate.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .certificate-preview {
+            display: none;
+            margin-top: 20px;
+            border: 3px solid var(--primary-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            max-width: 100%;
+            background-color: #fff;
+        }
+
+        .certificate-preview img {
+            width: 100%;
+            height: auto;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px 15px 0 0;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: 600;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(108, 40, 208, 0.3);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .modal-footer {
+            border-top: none;
+            padding: 1rem 2rem;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+            border: none;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<div id="navbar-container"></div>
+
+
+<div class="course-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1>Data Science A-Z™</h1>
+                <p class="lead">Master Data Science with Python, SQL, Tableau, Machine Learning & More</p>
+            </div>
+            <div class="col-md-4 text-right">
+                <div class="action-buttons">
+                    <a href="https://www.sanfoundry.com/data-science-questions-answers-analysis-experimental-design/"
+                       class="btn btn-quiz">
+                        <i class="fas fa-question-circle mr-2"></i>Quizzes
+                    </a>
+                    <a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/assignments/"
+                       class="btn btn-assignment">
+                        <i class="fas fa-tasks mr-2"></i>Assignments
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-8">
+            <section class="materials-section">
+                <h2 class="mb-4"><i class="fas fa-book-open mr-2"></i>Course Materials</h2>
+                <div class="material-card p-3">
+                    <h5>Week 1: Introduction to Data Science</h5>
+                    <p class="text-muted">Learn the fundamentals of data science and its real-world applications.</p>
+                    <div class="links mt-3">
+                        <a href="https://www.youtube.com/watch?v=ua-CiDNNj30"
+                           class="btn btn-sm btn-outline-primary mr-2 mb-2">
+                            <i class="fas fa-video mr-1"></i> Video Lectures
+                        </a>
+                        <a href="https://ocw.mit.edu/courses/15-062-data-mining-spring-2003/pages/lecture-notes/"
+                           class="btn btn-sm btn-outline-secondary mr-2 mb-2">
+                            <i class="fas fa-file-pdf mr-1"></i> Slides PDF
+                        </a>
+                        <a href="https://github.com/justmarkham/scikit-learn-videos
+https://github.com/ujjwalkarn/DataScienceR" class="btn btn-sm btn-outline-success mr-2 mb-2">
+                            <i class="fas fa-database mr-1"></i> Sample Datasets
+                        </a>
+                    </div>
+                </div>
+                <div class="material-card p-3">
+                    <h5>Week 2: Python for Data Science</h5>
+                    <p class="text-muted">Master Python programming with NumPy, Pandas, and data visualization
+                        libraries.</p>
+                    <div class="links mt-3">
+                        <a href="" class="btn btn-sm btn-outline-primary mr-2 mb-2">
+                            <i class="fas fa-video mr-1"></i> Video Lectures
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary mr-2 mb-2">
+                            <i class="fas fa-file-pdf mr-1"></i> Cheat Sheets
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-success mr-2 mb-2">
+                            <i class="fas fa-code mr-1"></i> Jupyter Notebooks
+                        </a>
+                    </div>
+                </div>
+                <div class="material-card p-3">
+                    <h5>Week 3: Machine Learning Fundamentals</h5>
+                    <p class="text-muted">Understand supervised and unsupervised learning algorithms with
+                        scikit-learn.</p>
+                    <div class="links mt-3">
+                        <a href="#" class="btn btn-sm btn-outline-primary mr-2 mb-2">
+                            <i class="fas fa-video mr-1"></i> Video Lectures
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary mr-2 mb-2">
+                            <i class="fas fa-file-pdf mr-1"></i> Case Studies
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-success mr-2 mb-2">
+                            <i class="fas fa-project-diagram mr-1"></i> ML Projects
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-info mr-2 mb-2">
+                            <i class="fas fa-chart-bar mr-1"></i> Datasets
+                        </a>
+                    </div>
+                </div>
+                <div class="material-card p-3">
+                    <h5>Week 4: Data Visualization & Tableau</h5>
+                    <p class="text-muted">Create compelling visualizations and dashboards with Tableau and
+                        Matplotlib.</p>
+                    <div class="links mt-3">
+                        <a href="#" class="btn btn-sm btn-outline-primary mr-2 mb-2">
+                            <i class="fas fa-video mr-1"></i> Video Lectures
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary mr-2 mb-2">
+                            <i class="fas fa-file-pdf mr-1"></i> Visualization Guides
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-success mr-2 mb-2">
+                            <i class="fas fa-table mr-1"></i> Tableau Workbooks
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <div class="col-lg-4">
+            <section class="progress-section">
+                <h2 class="mb-4"><i class="fas fa-chart-line mr-2"></i>Your Progress</h2>
+                <div class="progress-container">
+                    <div class="progress-title">
+                        <span>Course Completion</span>
+                        <span>75%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h5>Modules Completed</h5>
+                    <div class="module-list mt-3">
+                        <div class="module-item completed">
+                            <i class="fas fa-check-circle check-icon"></i>
+                            <div class="module-title">Data Science Introduction</div>
+                        </div>
+                        <div class="module-item completed">
+                            <i class="fas fa-check-circle check-icon"></i>
+                            <div class="module-title">Python Basics</div>
+                        </div>
+                        <div class="module-item completed">
+                            <i class="fas fa-check-circle check-icon"></i>
+                            <div class="module-title">Data Cleaning</div>
+                        </div>
+                        <div class="module-item completed">
+                            <i class="fas fa-check-circle check-icon"></i>
+                            <div class="module-title">Exploratory Analysis</div>
+                        </div>
+                        <div class="module-item">
+                            <i class="far fa-circle check-icon"></i>
+                            <div class="module-title">Machine Learning</div>
+                        </div>
+                        <div class="module-item">
+                            <i class="far fa-circle check-icon"></i>
+                            <div class="module-title">Advanced Visualization</div>
+                        </div>
+                        <div class="module-item">
+                            <i class="far fa-circle check-icon"></i>
+                            <div class="module-title">Capstone Project</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn btn-certificate" id="get-certificate-btn">
+                        <i class="fas fa-certificate mr-2"></i>Get Certificate
+                    </button>
+                    <div class="certificate-preview" id="certificate-preview"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="certificateModal" tabindex="-1" role="dialog" aria-labelledby="certificateModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="certificateModalLabel">Enter Your Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="studentName">Full Name</label>
+                    <input type="text" class="form-control" id="studentName" placeholder="Enter your full name">
+                    <div class="error-message" id="nameError"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-confirm" id="confirmNameBtn">Generate Certificate</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="footer-placeholder"></div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('nav.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                if (!document.querySelector('script[src="nav.js"]')) {
+                    const script = document.createElement('script');
+                    script.src = 'nav.js';
+                    document.body.appendChild(script);
+                }
+            });
+
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+
+
+        const certificateBtn = document.getElementById('get-certificate-btn');
+        const progressElement = document.querySelector('.progress-title span:last-child');
+        const certificatePreview = document.getElementById('certificate-preview');
+        const studentNameInput = document.getElementById('studentName');
+        const nameError = document.getElementById('nameError');
+        const confirmNameBtn = document.getElementById('confirmNameBtn');
+
+        function updateCertificateButtonState() {
+            const progress = parseInt(progressElement.textContent);
+            if (progress < 100) {
+                certificateBtn.classList.add('disabled');
+                certificateBtn.disabled = true;
+            } else {
+                certificateBtn.classList.remove('disabled');
+                certificateBtn.disabled = false;
+            }
+        }
+
+        updateCertificateButtonState();
+
+        document.querySelectorAll('.module-item').forEach(item => {
+            item.addEventListener('click', function () {
+                this.classList.toggle('completed');
+                const icon = this.querySelector('.check-icon');
+                if (this.classList.contains('completed')) {
+                    icon.classList.remove('fa-circle');
+                    icon.classList.add('fa-check-circle');
+                } else {
+                    icon.classList.remove('fa-check-circle');
+                    icon.classList.add('fa-circle');
+                }
+                updateProgress();
+                updateCertificateButtonState();
+            });
+        });
+
+        function updateProgress() {
+            const total = document.querySelectorAll('.module-item').length;
+            const completed = document.querySelectorAll('.module-item.completed').length;
+            const percentage = Math.round((completed / total) * 100);
+            document.querySelector('.progress-fill').style.width = percentage + '%';
+            progressElement.textContent = percentage + '%';
+        }
+
+        certificateBtn.addEventListener('click', function () {
+            if (this.disabled) {
+                alert('Please complete 100% of the course to get your certificate!');
+                return;
+            }
+            $('#certificateModal').modal('show');
+            studentNameInput.value = '';
+            nameError.style.display = 'none';
+        });
+
+        confirmNameBtn.addEventListener('click', function () {
+            const studentName = studentNameInput.value.trim();
+            const nameRegex = /^[a-zA-Z\s]+$/;
+
+            if (!studentName) {
+                nameError.textContent = 'Name cannot be empty!';
+                nameError.style.display = 'block';
+                return;
+            }
+            if (!nameRegex.test(studentName)) {
+                nameError.textContent = 'Name must contain only letters and spaces!';
+                nameError.style.display = 'block';
+                return;
+            }
+
+            $('#certificateModal').modal('hide');
+
+            const courseTitle = 'Data Science A-Z™';
+            const issueDate = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            const {jsPDF} = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+
+            doc.setFillColor(245, 245, 245);
+            doc.rect(0, 0, 297, 210, 'F');
+            doc.setFillColor(230, 230, 250);
+            doc.rect(0, 0, 297, 105, 'F');
+
+
+            doc.setLineWidth(3);
+            doc.setDrawColor(212, 175, 55);
+            doc.rect(8, 8, 281, 194, 'S');
+            doc.setLineWidth(1.5);
+            doc.setDrawColor(108, 40, 208);
+            doc.rect(12, 12, 273, 186, 'S');
+
+
+            doc.setLineWidth(0.8);
+            doc.setDrawColor(212, 175, 55);
+            doc.line(30, 45, 267, 45);
+            doc.line(30, 175, 267, 175);
+
+
+            doc.setLineWidth(1);
+            doc.setDrawColor(212, 175, 55);
+            doc.setFillColor(255, 255, 255);
+            doc.circle(260, 180, 15, 'FD');
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'italic');
+            doc.setTextColor(108, 40, 208);
+            doc.text('Skillora', 260, 178, {align: 'center'});
+            doc.text('Certified', 260, 182, {align: 'center'});
+
+
+            doc.setFontSize(48);
+            doc.setFont('times', 'bold');
+            doc.setTextColor(44, 62, 80);
+            doc.text('Certificate of Completion', 148.5, 40, {align: 'center'});
+
+
+            doc.setFontSize(22);
+            doc.setFont('times', 'italic');
+            doc.setTextColor(100, 100, 100);
+            doc.text('This certifies that', 148.5, 65, {align: 'center'});
+
+
+            doc.setFontSize(36);
+            doc.setFont('times', 'bold');
+            doc.setTextColor(44, 62, 80);
+            doc.text(studentName, 148.5, 85, {align: 'center'});
+
+
+            doc.setFontSize(22);
+            doc.setFont('times', 'normal');
+            doc.setTextColor(100, 100, 100);
+            doc.text('has successfully completed the', 148.5, 105, {align: 'center'});
+
+
+            doc.setFontSize(28);
+            doc.setFont('times', 'bold');
+            doc.setTextColor(44, 62, 80);
+            doc.text(courseTitle, 148.5, 125, {align: 'center'});
+
+
+            doc.setFontSize(18);
+            doc.setFont('times', 'normal');
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Issued on: ${issueDate}`, 148.5, 145, {align: 'center'});
+
+
+            doc.setFontSize(16);
+            doc.setFont('times', 'italic');
+            doc.setTextColor(44, 62, 80);
+            doc.text('Skillora Academy', 100, 185, {align: 'center'});
+            doc.text('Data Science Lead', 200, 185, {align: 'center'});
+
+
+            doc.setLineWidth(0.5);
+            doc.setDrawColor(44, 62, 80);
+            doc.line(80, 187, 120, 187);
+            doc.line(180, 187, 220, 187);
+
+
+            doc.save(`Data_Science_Certificate_${studentName.replace(/\s+/g, '_')}.pdf`);
+
+
+            const pdfDataUri = doc.output('datauristring');
+            certificatePreview.style.display = 'block';
+            certificatePreview.innerHTML = `<img src="${pdfDataUri}" alt="Certificate Preview">`;
+        });
+    });
+</script>
+</body>
+</html>

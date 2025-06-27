@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skillora - Learn Programming</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+
+
+        .main-content {
+            padding: 50px 5%;
+        }
+
+        .hero {
+            width: 100%;
+            height: 50vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero img {
+            object-fit: cover;
+            height: 50vh;
+        }
+
+        .video {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border: 5px solid #a335f1;
+        }
+
+
+        .section.plans {
+            padding: 40px 0;
+            background-color: #f9f9f9;
+            direction: rtl;
+        }
+
+        .section.plans .container {
+            max-width: 1140px;
+            margin: auto;
+            padding: 0 15px;
+        }
+
+        .section.plans .head-with-desc {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #222;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .section.plans .head-with-desc span {
+            display: block;
+            font-size: 16px;
+            color: #555;
+            margin-top: 10px;
+            font-weight: normal;
+        }
+
+        .section.plans .the-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .section.plans .the-plans a {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .section.plans .the-plans a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .section.plans .the-plans img {
+            max-width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .section.plans .the-plans span {
+            font-size: 16px;
+            font-weight: 600;
+            color: #6c28d0;
+        }
+
+
+        .instructors-section {
+            padding: 60px 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            width: 18rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 10px;
+            background-color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: #6c28d0;
+            border: none;
+            padding: 8px 16px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #8a4cea;
+        }
+
+        .the-courses-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            width: 300px;
+            background-color: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background-color: #eef6ff;
+        }
+
+        .card-body {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-title {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #a335f1;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #6c28d0;
+        }
+
+
+
+        .reviews-section {
+            padding: 60px 0;
+        }
+
+        .review-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            background-color: white;
+        }
+
+        .review-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .rating {
+            font-size: 1.2rem;
+            color: #ffc107;
+        }
+
+        .title-wrapper {
+            position: relative;
+            display: inline-block;
+            padding: 0 50px;
+        }
+
+        .title-wrapper::before,
+        .title-wrapper::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 3px;
+            background-color: #a335f1;
+            transform: translateY(-50%);
+        }
+
+        .title-wrapper::before {
+            left: 0;
+        }
+
+        .title-wrapper::after {
+            right: 0;
+        }
+
+        .main-title {
+            font-size: 28px;
+            color: #222;
+            font-weight: bold;
+        }
+
+        .sub-title {
+            font-size: 16px;
+            color: #555;
+            font-weight: normal;
+        }
+
+
+    </style>
+
+
+</head>
+<body>
+<div id="navbar-container"></div>
+
+
+<main class="main-content">
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-9">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="./photos/pexels-olly-3769021.jpg" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="./photos/pexels-buro-millennial-636760-1438081.jpg"
+                                     alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="./photos/pexels-max-fischer-5212700.jpg"
+                                     alt="Second slide">
+                            </div>
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                           data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                           data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <video class="d-block w-100 video" controls autoplay muted loop>
+                        <source src="./photos/3255275-uhd_3840_2160_25fps.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+
+<div class="section plans">
+    <div class="container">
+        <h2 class="text-center mb-5" style="position: relative;">
+            <span class="title-wrapper">
+                <span class="main-title">Courses</span>
+            </span>
+            <span class="sub-title d-block mt-2">Our Available Courses</span>
+        </h2>
+        <div class="the-courses-cards">
+            <div class="card">
+                <img src="./photos/web.jpg" class="card-img-top" alt="Web Development">
+                <div class="card-body">
+                    <h5 class="card-title">Web Development</h5>
+                    <p class="card-text">Explore the world of website building and front-end/back-end development.</p>
+                    <a href="courses.html?category=web" class="btn btn-primary">View Courses</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="./photos/mobile.jpg" class="card-img-top" alt="Mobile Development">
+                <div class="card-body">
+                    <h5 class="card-title">Mobile Development</h5>
+                    <p class="card-text">Learn how to build Android and iOS applications from scratch.</p>
+                    <a href="courses.html?category=mobile" class="btn btn-primary">View Courses</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="./photos/data.jpg" class="card-img-top" alt="Data Science">
+                <div class="card-body">
+                    <h5 class="card-title">Data Science</h5>
+                    <p class="card-text">Dive into data analysis, machine learning, and AI development.</p>
+                    <a href="courses.html?category=data" class="btn btn-primary">View Courses</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="./photos/design.jpg" class="card-img-top" alt="Design">
+                <div class="card-body">
+                    <h5 class="card-title">Design</h5>
+                    <p class="card-text">Master graphic design, UI/UX, and visual creativity skills.</p>
+                    <a href="courses.html?category=design" class="btn btn-primary">View Courses</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="./photos/business.jpg" class="card-img-top" alt="Business">
+                <div class="card-body">
+                    <h5 class="card-title">Business</h5>
+                    <p class="card-text">Learn business management, marketing, and entrepreneurship.</p>
+                    <a href="courses.html?category=business" class="btn btn-primary">View Courses</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div class="instructors-section">
+    <h2 class="text-center mb-5" style="position: relative;">
+            <span class="title-wrapper">
+                <span class="main-title">Our Instructor</span>
+            </span>
+        <span class="sub-title d-block mt-2">Expert Instructors Committed to Guiding Your Learning Journey</span>
+    </h2>
+    <div class="cards-container">
+        <div class="card">
+            <img src="./photos/Sara%20El-Mahdy.png" class="card-img-top" alt="Instructor 1">
+            <div class="card-body">
+                <h5 class="card-title">Sara El-Mahdy</h5>
+                <p class="card-text">Artificial Intelligence & Data Science</p>
+                <a href="instructorprofile.html" class="btn btn-primary">View Profile</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="./photos/Ahmed%20Refaat.png" class="card-img-top" alt="Instructor 2">
+            <div class="card-body">
+                <h5 class="card-title">Ahmed Refaat</h5>
+                <p class="card-text">Web Development</p>
+                <a href="instructorprofile2.html" class="btn btn-primary">View Profile</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="./photos/Ali%20Al-Husseini.png" class="card-img-top" alt="Instructor 3">
+            <div class="card-body">
+                <h5 class="card-title">Ali Al-Husseini</h5>
+                <p class="card-text">Graphic Design/UI/UX</p>
+                <a href="instructorprofile3.html" class="btn btn-primary">View Profile</a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div class="reviews-section py-5" style="background-color: #f9f9f9;">
+    <div class="container">
+        <h2 class="text-center mb-5" style="position: relative;">
+            <span class="title-wrapper">
+                <span class="main-title">Student Reviews</span>
+            </span>
+            <span class="sub-title d-block mt-2">What our students say about us</span>
+        </h2>
+
+        <div class="row">
+
+            <div class="col-md-4 mb-4">
+                <div class="card review-card h-100">
+                    <div class="card-body text-center">
+                        <div class="rating mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text mb-4">"The courses are well-structured and the instructors are
+                            knowledgeable. I learned so much about web development in a short time!"</p>
+                        <div class="student-info">
+
+                            <h5 class="mb-1">Mohamed Ahmed</h5>
+                            <p class="text-muted small">Web Development Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mb-4">
+                <div class="card review-card h-100">
+                    <div class="card-body text-center">
+                        <div class="rating mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                        </div>
+                        <p class="card-text mb-4">"The mobile development course exceeded my expectations. The practical
+                            projects helped me build a strong portfolio."</p>
+                        <div class="student-info">
+
+                            <h5 class="mb-1">Sarah Mahmoud</h5>
+                            <p class="text-muted small">Mobile Development Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mb-4">
+                <div class="card review-card h-100">
+                    <div class="card-body text-center">
+                        <div class="rating mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text mb-4">"Excellent data science curriculum. The instructors provide great
+                            support and the community is very helpful."</p>
+                        <div class="student-info">
+
+                            <h5 class="mb-1">Ahmed Samy</h5>
+                            <p class="text-muted small">Data Science Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="text-center mt-5">
+            <h3 class="mb-3">Overall Rating</h3>
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="display-4 font-weight-bold mr-3">4.8</div>
+                <div class="text-left">
+                    <div class="rating mb-2">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star-half-alt text-warning"></i>
+                    </div>
+                    <p class="small text-muted mb-0">Based on 1,245 reviews</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="footer-placeholder"></div>
+
+<script>
+    fetch("footer.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("footer-placeholder").innerHTML = data;
+        });
+</script>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('nav.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+
+
+                const event = new Event('navbarLoaded');
+                document.dispatchEvent(event);
+
+
+                if (!document.querySelector('script[src="navbar.js"]')) {
+                    const script = document.createElement('script');
+                    script.src = 'nav.js';
+                    document.body.appendChild(script);
+                }
+            });
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

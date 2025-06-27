@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #6c28d0;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .faq-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-btn {
+            padding: 0.75rem 1.5rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            border-top: 1px solid transparent;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+            border-top: 1px solid #eee;
+        }
+
+        .contact-promo {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem;
+            background-color: var(--light);
+            border-radius: var(--radius);
+        }
+
+        .contact-promo h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .contact-btn:hover {
+            background-color: #8a4cea;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .faq-question {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="navbar-container"></div>
+
+<div class="container">
+    <header>
+        <h1 class="page-title">Frequently Asked Questions</h1>
+        <p class="page-subtitle">Find answers to common questions about our courses, enrollment process, payment
+            options, and more.</p>
+    </header>
+
+    <div class="faq-categories">
+        <button class="category-btn active" data-category="all">All Questions</button>
+        <button class="category-btn" data-category="courses">Courses</button>
+        <button class="category-btn" data-category="enrollment">Enrollment</button>
+        <button class="category-btn" data-category="payment">Payment</button>
+        <button class="category-btn" data-category="technical">Technical</button>
+    </div>
+
+    <div class="faq-container">
+
+        <div class="faq-item" data-categories="general">
+            <div class="faq-question">
+                <span>What is Academy and how does it work?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Academy is an online learning platform that offers courses in various subjects. Our platform allows
+                    you to learn at your own pace with video lectures, quizzes, and hands-on projects. After enrolling
+                    in a course, you'll get lifetime access to all course materials and can learn anytime, anywhere.</p>
+            </div>
+        </div>
+
+
+        <div class="faq-item" data-categories="courses">
+            <div class="faq-question">
+                <span>How do I choose the right course for me?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We recommend considering your current skill level and learning goals. Each course page includes
+                    detailed information about prerequisites, curriculum, and expected outcomes. You can also preview
+                    free course content before enrolling to see if it matches your expectations.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-categories="courses">
+            <div class="faq-question">
+                <span>Are there any prerequisites for the courses?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Prerequisites vary by course. Beginner-level courses typically require no prior knowledge, while
+                    advanced courses may require specific skills. All prerequisites are clearly listed on each course
+                    description page.</p>
+            </div>
+        </div>
+
+
+        <div class="faq-item" data-categories="enrollment">
+            <div class="faq-question">
+                <span>How do I enroll in a course?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>To enroll in a course, simply click the "Enroll Now" button on the course page. You'll be guided
+                    through the payment process (if applicable), and then gain immediate access to the course
+                    content.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-categories="enrollment">
+            <div class="faq-question">
+                <span>Can I take multiple courses at the same time?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes, you can enroll in multiple courses simultaneously. Our platform allows you to switch between
+                    courses and track your progress in each one separately.</p>
+            </div>
+        </div>
+
+
+        <div class="faq-item" data-categories="payment">
+            <div class="faq-question">
+                <span>What payment methods do you accept?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and in some regions,
+                    bank transfers. All transactions are secure and encrypted.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-categories="payment">
+            <div class="faq-question">
+                <span>Do you offer refunds?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We offer a 30-day money-back guarantee for all courses. If you're not satisfied with your purchase,
+                    you can request a full refund within 30 days of enrollment, no questions asked.</p>
+            </div>
+        </div>
+
+
+        <div class="faq-item" data-categories="technical">
+            <div class="faq-question">
+                <span>What are the system requirements?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Our platform works on most modern devices. You'll need a stable internet connection and an up-to-date
+                    web browser (Chrome, Firefox, Safari, or Edge). Some courses may have additional requirements which
+                    will be listed on the course page.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-categories="technical">
+            <div class="faq-question">
+                <span>How do I access my courses after enrollment?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>After enrolling, you can access your courses anytime by logging into your account on our website or
+                    mobile app. All your enrolled courses will appear in your dashboard.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-promo">
+        <h3>Didn't find what you were looking for?</h3>
+        <p>Our support team is ready to help you with any questions you might have.</p>
+        <a href="contact.html" class="contact-btn">Contact Support</a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const faqQuestions = document.querySelectorAll('.faq-question');
+
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('active');
+
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (item !== faqItem && item.classList.contains('active')) {
+                        item.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+
+        const categoryBtns = document.querySelectorAll('.category-btn');
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const category = btn.dataset.category;
+                const faqItems = document.querySelectorAll('.faq-item');
+
+                faqItems.forEach(item => {
+                    if (category === 'all' || item.dataset.categories.includes(category)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                        item.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+
+        if (window.location.hash) {
+            const targetItem = document.querySelector(window.location.hash);
+            if (targetItem && targetItem.classList.contains('faq-item')) {
+                targetItem.classList.add('active');
+                targetItem.scrollIntoView({behavior: 'smooth'});
+            }
+        }
+    });
+</script>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('nav.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+
+
+                const event = new Event('navbarLoaded');
+                document.dispatchEvent(event);
+
+
+                if (!document.querySelector('script[src="navbar.js"]')) {
+                    const script = document.createElement('script');
+                    script.src = 'nav.js';
+                    document.body.appendChild(script);
+                }
+            });
+    });
+</script>
+
+
+
+<div id="footer-placeholder"></div>
+
+<script>
+    fetch("footer.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("footer-placeholder").innerHTML = data;
+        });
+</script>
+
+
+</body>
+</html>

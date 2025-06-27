@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skillora</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+          font-size: 24px;
+          font-weight: bold;
+          color: #2c3e50;
+          text-decoration: none;
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+        }
+
+        .logo .dot {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          background-color: #6c28d0; /* اللون اللي تريده */
+          border-radius: 50%;
+          margin-left: 6px;
+          margin-top: 13px;
+        }
+
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #6c28d0;
+        }
+
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            border-radius: 8px;
+            padding: 10px 0;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-content a {
+            color: #2c3e50;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: #f1f3f4;
+            border-radius: 25px;
+            padding: 8px 15px;
+            width: 250px;
+        }
+
+        .search-container input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            padding: 5px;
+        }
+
+        .search-container button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .auth-btn {
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            border: 1px solid #6c28d0;
+            color: #6c28d0;
+        }
+
+        .login-btn:hover {
+            background-color: #f0f8ff;
+        }
+
+        .signup-btn {
+            background-color: #6c28d0;
+            border: 1px solid #6c28d0;
+            color: white;
+        }
+
+        .signup-btn:hover {
+            background-color: #9a66ed;
+            border-color: #9a66ed;
+        }
+
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            display: none;
+        }
+
+        .icon {
+            position: relative;
+            cursor: pointer;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+
+        .icon-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background-color: #6c28d0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        .profile-dropdown {
+            right: 0;
+            left: auto;
+            width: 250px;
+        }
+
+
+        .saved-courses-dropdown, .notifications-dropdown {
+            right: 0;
+            left: auto;
+            width: 300px;
+            padding: 15px;
+        }
+
+        .saved-courses-dropdown h4, .notifications-dropdown h4 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .saved-courses-list, .notifications-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .view-all {
+            display: block;
+            text-align: center;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            color: #6c28d0;
+            font-weight: 500;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+
+        .avatar-large {
+            width: 50px;
+            height: 50px;
+            background-color: #6c28d0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .profile-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+        }
+
+        .profile-dropdown a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            width: 100%;
+            text-align: left;
+            padding: 10px 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #f1f1f1;
+        }
+
+
+        .auth-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .auth-container {
+            display: flex;
+            width: 800px;
+            height: 600px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-image {
+            flex: 1;
+            background: #6c28d0;
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-image h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .auth-image p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .auth-form {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+            color: #7f8c8d;
+            cursor: pointer;
+        }
+
+        .form-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #6c28d0;
+            outline: none;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .forgot-password {
+            color: #6c28d0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #6c28d0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .auth-switch {
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        .auth-switch a {
+            color: #6c28d0;
+            text-decoration: none;
+        }
+
+
+        .login-form, .signup-form {
+            display: none;
+        }
+
+        .login-form.active, .signup-form.active {
+            display: block;
+        }
+
+
+        @media (max-width: 1200px) {
+            .search-container {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar {
+                flex-wrap: wrap;
+                padding: 15px;
+            }
+
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                margin-top: 15px;
+                gap: 15px;
+            }
+
+            .search-container {
+                order: 2;
+                margin-top: 15px;
+                width: 100%;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .auth-buttons {
+                margin-left: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+                width: 90%;
+                height: auto;
+            }
+
+            .auth-image {
+                padding: 20px;
+                text-align: center;
+            }
+
+            .auth-form {
+                padding: 30px 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                border-radius: 0;
+                display: none;
+                width: 100%;
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: none;
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="index.html" class="logo">
+    Skillora<span class="dot"></span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <div class="dropdown">
+            <a href="courses.html" class="dropbtn">Courses <i class="fas fa-chevron-down"></i></a>
+            <div class="dropdown-content">
+                <a href="courses.html?category=all">All Courses</a>
+                <a href="courses.html?category=web">Web Development</a>
+                <a href="courses.html?category=mobile">Mobile Development</a>
+                <a href="courses.html?category=data">Data Science</a>
+                <a href="courses.html?category=design">Design</a>
+                <a href="courses.html?category=business">Business</a>
+            </div>
+        </div>
+        <a href="Instructor.html">Instructor</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search courses...">
+        <button type="submit" id="searchBtn"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="auth-buttons" id="authButtons">
+        <button class="auth-btn login-btn" id="loginBtn">Log In</button>
+        <button class="auth-btn signup-btn" id="signupBtn">Sign Up</button>
+    </div>
+
+    <div class="nav-icons" id="userIcons">
+        <div class="dropdown">
+            <div class="icon"><i class="far fa-heart"></i><span class="icon-badge">0</span></div>
+            <div class="dropdown-content saved-courses-dropdown">
+                <h4>Saved Courses</h4>
+                <div class="saved-courses-list">
+
+                    <div style="padding: 10px 15px; border-bottom: 1px solid #eee;">Course 1</div>
+                    <div style="padding: 10px 15px; border-bottom: 1px solid #eee;">Course 2</div>
+                    <div style="padding: 10px 15px;">Course 3</div>
+                </div>
+                <a href="#" class="view-all">View All Saved Courses</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class="icon"><i class="far fa-bell"></i><span class="icon-badge">0</span></div>
+            <div class="dropdown-content notifications-dropdown">
+                <h4>Notifications</h4>
+                <div class="notifications-list">
+
+                    <div style="padding: 10px 15px; border-bottom: 1px solid #eee;">New course added</div>
+                    <div style="padding: 10px 15px; border-bottom: 1px solid #eee;">Your course has been approved</div>
+                    <div style="padding: 10px 15px;">New message from instructor</div>
+                </div>
+                <a href="#" class="view-all">View All Notifications</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class="user-avatar" id="userAvatar">US</div>
+            <div class="dropdown-content profile-dropdown">
+                <div class="profile-header">
+                    <div class="avatar-large" id="profileAvatar">US</div>
+                    <div>
+                        <h4 id="profileName">User Name</h4>
+                        <p id="profileEmail">user@example.com</p>
+                    </div>
+                </div>
+                <a href="my-courses.html"><i class="fas fa-bookmark"></i> My Courses</a>
+                <a href="disscuion%20form.html"><i class="fas fa-bookmark"></i> Disscuion Form</a>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="auth-page" id="authPage">
+        <div class="auth-container">
+            <div class="auth-image">
+                <h2>Welcome Back!</h2>
+                <p>Login to access your personalized dashboard, track your progress, and continue your learning
+                    journey.</p>
+                <p>Don't have an account? <a href="#" id="switchToSignup"
+                                             style="color: white; text-decoration: underline;">Sign up here</a></p>
+            </div>
+
+            <div class="auth-form">
+                <div class="close-btn" id="closeAuth"><i class="fas fa-times"></i></div>
+
+
+                <form class="login-form active" id="loginForm">
+                    <h2 class="form-title">Sign In</h2>
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="Your email address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Your password" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember-me">
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="submit-btn">Login</button>
+                    <div class="auth-switch">Don't have an account? <a href="#" id="showSignup">Sign up</a></div>
+                </form>
+
+
+                <form class="signup-form" id="signupForm">
+                    <h2 class="form-title">Create Account</h2>
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="Your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Your email address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm">Confirm Password</label>
+                        <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Sign Up</button>
+                    <div class="auth-switch">Already have an account? <a href="#" id="showLogin">Sign in</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const authPage = document.getElementById('authPage');
+        const closeAuth = document.getElementById('closeAuth');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const switchToSignup = document.getElementById('switchToSignup');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+
+
+        loginBtn.addEventListener('click', function () {
+            authPage.style.display = 'flex';
+            loginForm.classList.add('active');
+            signupForm.classList.remove('active');
+        });
+
+
+        signupBtn.addEventListener('click', function () {
+            authPage.style.display = 'flex';
+            signupForm.classList.add('active');
+            loginForm.classList.remove('active');
+        });
+
+
+        closeAuth.addEventListener('click', function () {
+            authPage.style.display = 'none';
+        });
+
+
+        showSignup.addEventListener('click', function (e) {
+            e.preventDefault();
+            signupForm.classList.add('active');
+            loginForm.classList.remove('active');
+        });
+
+
+        showLogin.addEventListener('click', function (e) {
+            e.preventDefault();
+            loginForm.classList.add('active');
+            signupForm.classList.remove('active');
+        });
+
+
+        switchToSignup.addEventListener('click', function (e) {
+            e.preventDefault();
+            signupForm.classList.add('active');
+            loginForm.classList.remove('active');
+        });
+
+
+        authPage.addEventListener('click', function (e) {
+            if (e.target === authPage) {
+                authPage.style.display = 'none';
+            }
+        });
+
+
+        const authButtons = document.getElementById('authButtons');
+        const userIcons = document.getElementById('userIcons');
+
+
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            authButtons.style.display = 'none';
+            userIcons.style.display = 'flex';
+            authPage.style.display = 'none';
+        });
+
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        logoutBtn.addEventListener('click', function () {
+            authButtons.style.display = 'flex';
+            userIcons.style.display = 'none';
+        });
+
+
+        const searchBtn = document.getElementById('searchBtn');
+        searchBtn.addEventListener('click', function () {
+            const searchTerm = document.getElementById('searchInput').value;
+            alert('Searching for: ' + searchTerm);
+
+        });
+    });
+</script>
+
+</body>
+</html>

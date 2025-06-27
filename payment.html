@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Skillora</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+
+        .payment-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .payment-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .payment-form {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #6c28d0;
+        }
+
+        .course-details {
+            margin-bottom: 20px;
+        }
+
+        .course-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .course-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #6c28d0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #6c28d0;
+            outline: none;
+        }
+
+        .card-details {
+            display: flex;
+            gap: 15px;
+        }
+
+        .card-details .form-group {
+            flex: 1;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #6c28d0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .submit-btn:hover {
+            background-color: #9529b9;
+        }
+
+        .payment-methods {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .payment-methods img {
+            height: 30px;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #2c3e50;
+        }
+
+        .modal-icon {
+            font-size: 40px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .modal-message {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-btn {
+            background-color: #6c28d0;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal-btn:hover {
+            background-color: #9529b9;
+        }
+
+
+        @media (max-width: 768px) {
+            .payment-section {
+                flex-direction: column;
+            }
+
+            .card-details {
+                flex-direction: column;
+            }
+
+            .modal {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="navbar-container"></div>
+
+
+<div class="container">
+    <section class="payment-section">
+        <div class="payment-info">
+            <h2 class="section-title">Order Summary</h2>
+            <div class="course-details">
+                <h3 id="course-title" class="course-title">Course Title</h3>
+                <div id="course-price" class="course-price">$0.00</div>
+            </div>
+            <p>By completing your purchase, you will gain full access to this course and all its resources.</p>
+        </div>
+
+        <div class="payment-form">
+            <h2 class="section-title">Payment Details</h2>
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="cardholder-name">Cardholder Name</label>
+                    <input type="text" id="cardholder-name" placeholder="John Doe" required>
+                    <div id="cardholder-error" class="error-message">Please enter a valid name.</div>
+                </div>
+                <div class="form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    <div id="card-number-error" class="error-message">Please enter a valid card number.</div>
+                </div>
+                <div class="card-details">
+                    <div class="form-group">
+                        <label for="expiry-date">Expiry Date</label>
+                        <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5" required>
+                        <div id="expiry-error" class="error-message">Please enter a valid expiry date.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+                        <div id="cvv-error" class="error-message">Please enter a valid CVV.</div>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Confirm Payment</button>
+            </form>
+            <div class="payment-methods">
+                <span>We accept:</span>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+                <img src="./photos/master.jpg"
+                     alt="Mastercard">
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<div id="footer-container"></div>
+
+<div id="success-modal" class="modal-overlay">
+    <div class="modal">
+        <button class="modal-close" id="modal-close">×</button>
+        <i class="fas fa-check-circle modal-icon"></i>
+        <div id="modal-message" class="modal-message"></div>
+        <button class="modal-btn" id="modal-ok">OK</button>
+    </div>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('nav.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+
+
+                const event = new Event('navbarLoaded');
+                document.dispatchEvent(event);
+
+
+                if (!document.querySelector('script[src="nav.js"]')) {
+                    const script = document.createElement('script');
+                    script.src = 'nav.js';
+                    document.body.appendChild(script);
+                }
+
+
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (!currentUser) {
+                    const authPage = document.getElementById('authPage');
+                    const loginForm = document.getElementById('loginForm');
+                    const signupForm = document.getElementById('signupForm');
+                    if (authPage && loginForm && signupForm) {
+                        authPage.style.display = 'flex';
+                        loginForm.classList.add('active');
+                        signupForm.classList.remove('active');
+
+
+                        loginForm.addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const email = document.getElementById('login-email').value;
+                            const password = document.getElementById('login-password').value;
+                            if (email && password) {
+                                localStorage.setItem('currentUser', JSON.stringify({email}));
+                                authPage.style.display = 'none';
+                                loadCourseData(); // Reload course data after login
+                            } else {
+                                showModal('Please enter valid login credentials.', 'error');
+                            }
+                        });
+
+
+                        const showSignup = document.getElementById('showSignup');
+                        if (showSignup) {
+                            showSignup.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                loginForm.classList.remove('active');
+                                signupForm.classList.add('active');
+                            });
+                        }
+
+
+                        signupForm.addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const name = document.getElementById('signup-name').value;
+                            const email = document.getElementById('signup-email').value;
+                            const password = document.getElementById('signup-password').value;
+                            const confirmPassword = document.getElementById('signup-confirm').value;
+                            if (password === confirmPassword && email && name) {
+                                localStorage.setItem('currentUser', JSON.stringify({email, name}));
+                                authPage.style.display = 'none';
+                                loadCourseData();
+                            } else {
+                                showModal('Please ensure all fields are filled and passwords match.', 'error');
+                            }
+                        });
+
+
+                        const closeAuth = document.getElementById('closeAuth');
+                        if (closeAuth) {
+                            closeAuth.addEventListener('click', function () {
+                                authPage.style.display = 'none';
+                                window.location.href = `course-details.html?id=${courseId}`;
+                            });
+                        }
+                    } else {
+                        showModal('Please log in to proceed with payment.', 'error');
+                        setTimeout(() => {
+                            window.location.href = `course-details.html?id=${courseId}`;
+                        }, 2000);
+                    }
+                } else {
+                    loadCourseData();
+                }
+            });
+
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    });
+
+    const courses = {
+        '1': {
+            id: '1',
+            title: 'Modern JavaScript From Scratch',
+            category: 'Web Development',
+            description: 'Learn modern JavaScript from the ground up.',
+            image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            rating: 4.8,
+            reviews: 1245,
+            students: 5000,
+            duration: '12 hours',
+            price: '$49.99',
+            instructor: {
+                name: 'John Smith',
+                title: 'Senior JavaScript Developer',
+                avatar: 'JS'
+            }
+        },
+        '2': {
+            id: '2',
+            title: 'Python for Beginners',
+            category: 'Web Development',
+            description: 'Start your programming journey with Python.',
+            image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            rating: 4.7,
+            reviews: 980,
+            students: 3500,
+            duration: '10 hours',
+            price: '$39.99',
+            instructor: {
+                name: 'Paul Davis',
+                title: 'Python Developer',
+                avatar: 'PD'
+            }
+        },
+        '3': {
+            id: '3',
+            title: 'React Native - The Practical Guide',
+            category: 'Mobile Development',
+            description: 'Build cross-platform mobile apps with React Native.',
+            image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            rating: 4.9,
+            reviews: 1500,
+            students: 4200,
+            duration: '15 hours',
+            price: '$59.99',
+            instructor: {
+                name: 'Anna Robinson',
+                title: 'Mobile Developer',
+                avatar: 'AR'
+            }
+        },
+        '4': {
+            id: '4',
+            title: 'Data Science A-Z™',
+            category: 'Data Science',
+            description: 'Learn Data Science step by step.',
+            image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            rating: 4.6,
+            reviews: 850,
+            students: 3000,
+            duration: '20 hours',
+            price: '$69.99',
+            instructor: {
+                name: 'Kate Thompson',
+                title: 'Data Scientist',
+                avatar: 'KT'
+            }
+        },
+        '5': {
+            id: '5',
+            title: 'UI/UX Design Fundamentals',
+            category: 'Design',
+            description: 'Learn the fundamentals of UI/UX design.',
+            image: 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            rating: 4.5,
+            reviews: 720,
+            students: 2500,
+            duration: '8 hours',
+            price: '$44.99',
+            instructor: {
+                name: 'Lisa Morgan',
+                title: 'UI/UX Designer',
+                avatar: 'LM'
+            }
+        },
+        '6': {
+            id: '6',
+            title: 'Digital Marketing Masterclass',
+            category: 'Business',
+            description: 'Master digital marketing strategy.',
+            image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            rating: 4.7,
+            reviews: 1100,
+            students: 4000,
+            duration: '15 hours',
+            price: '$54.99',
+            instructor: {
+                name: 'David Wilson',
+                title: 'Marketing Expert',
+                avatar: 'DW'
+            }
+        }
+    };
+
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get('id');
+
+
+    const modalOverlay = document.getElementById('success-modal');
+    const modalMessage = document.getElementById('modal-message');
+    const modalOkBtn = document.getElementById('modal-ok');
+    const modalCloseBtn = document.getElementById('modal-close');
+
+    function showModal(message, type = 'success') {
+        modalMessage.textContent = message;
+        if (type === 'error') {
+            document.querySelector('.modal-icon').classList.replace('fa-check-circle', 'fa-exclamation-circle');
+            document.querySelector('.modal-icon').style.color = '#e74c3c';
+        } else {
+            document.querySelector('.modal-icon').classList.replace('fa-exclamation-circle', 'fa-check-circle');
+            document.querySelector('.modal-icon').style.color = '#28a745';
+        }
+        modalOverlay.classList.add('show');
+    }
+
+    function closeModal(redirect = false) {
+        modalOverlay.classList.remove('show');
+        if (redirect) {
+            setTimeout(() => {
+                window.location.href = 'my-courses.html';
+            }, 300);
+        }
+    }
+
+    modalOkBtn.addEventListener('click', () => closeModal(true));
+    modalCloseBtn.addEventListener('click', () => closeModal(true));
+    modalOverlay.addEventListener('click', function (e) {
+        if (e.target === modalOverlay) {
+            closeModal(true);
+        }
+    });
+
+    function loadCourseData() {
+        const course = courses[courseId] || courses['1'];
+
+
+        document.getElementById('course-title').textContent = course.title;
+        document.getElementById('course-price').textContent = course.price;
+        document.title = `Payment - ${course.title} - Skillora`;
+
+        const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses')) || [];
+        if (enrolledCourses.some(c => c.id === course.id)) {
+            showModal('You are already enrolled in this course!', 'error');
+            setTimeout(() => {
+                window.location.href = 'my-courses.html';
+            }, 2000);
+            return;
+        }
+
+
+        const paymentForm = document.getElementById('payment-form');
+        paymentForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+
+            const cardholderName = document.getElementById('cardholder-name').value.trim();
+            const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+            const expiryDate = document.getElementById('expiry-date').value;
+            const cvv = document.getElementById('cvv').value;
+
+
+            document.getElementById('cardholder-error').style.display = 'none';
+            document.getElementById('card-number-error').style.display = 'none';
+            document.getElementById('expiry-error').style.display = 'none';
+            document.getElementById('cvv-error').style.display = 'none';
+
+
+            let isValid = true;
+
+            if (!cardholderName || !/^[a-zA-Z\s]{2,}$/.test(cardholderName)) {
+                document.getElementById('cardholder-error').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!cardNumber || !/^\d{16}$/.test(cardNumber)) {
+                document.getElementById('card-number-error').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!expiryDate || !/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate)) {
+                document.getElementById('expiry-error').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!cvv || !/^\d{3,4}$/.test(cvv)) {
+                document.getElementById('cvv-error').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+
+                const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses')) || [];
+                enrolledCourses.push({
+                    id: course.id,
+                    title: course.title,
+                    instructor: course.instructor.name,
+                    image: course.image,
+                    price: course.price,
+                    enrolledDate: new Date().toISOString()
+                });
+                localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourses));
+
+                showModal(`Payment successful! You have enrolled in "${course.title}".`);
+            }
+        });
+
+        document.getElementById('card-number').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = value;
+        });
+
+        document.getElementById('expiry-date').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 3) {
+                value = value.slice(0, 2) + '/' + value.slice(2);
+            }
+            e.target.value = value;
+        });
+    }
+</script>
+</body>
+</html>

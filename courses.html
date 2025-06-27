@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses - Skillora</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #2c3e50;
+    }
+
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .page-header h1 {
+      font-size: 36px;
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    .page-header p {
+      color: #7f8c8d;
+      font-size: 18px;
+    }
+
+    /* فلتر الكورسات */
+    .courses-filter {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      padding: 8px 20px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background-color: #6c28d0;
+      color: white;
+      border-color: #6c28d0;
+    }
+
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .course-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .course-image {
+      height: 160px;
+      overflow: hidden;
+    }
+
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .course-card:hover .course-image img {
+      transform: scale(1.05);
+    }
+
+    .course-info {
+      padding: 20px;
+    }
+
+    .course-category {
+      display: inline-block;
+      background-color: #e8f4fc;
+      color: #6c28d0;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .course-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .course-instructor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+
+    .instructor-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #6c28d0;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .course-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    .course-price {
+      font-weight: bold;
+      color: #2c3e50;
+      font-size: 18px;
+    }
+
+    .course-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #f39c12;
+    }
+
+    .course-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: #6c28d0;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #9653ec;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #6c28d0;
+      color: #6c28d0;
+    }
+
+    .btn-outline:hover {
+      background-color: #f0f8ff;
+    }
+
+
+    .featured-courses {
+      margin: 60px 0;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: #6c28d0;
+    }
+
+
+    .search-results-header {
+      background-color: #f1f3f4;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      display: none;
+    }
+
+    .search-term {
+      font-weight: bold;
+      color: #6c28d0;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px 0;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      display: none;
+    }
+
+    .no-results h3 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .no-results p {
+      color: #7f8c8d;
+      margin-bottom: 20px;
+    }
+
+
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 28px;
+      }
+
+      .courses-filter {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .filter-btn {
+        width: 100%;
+        max-width: 200px;
+      }
+
+      .course-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="navbar-container"></div>
+
+
+  <div class="container">
+    <header class="page-header">
+      <h1>Explore Our Courses</h1>
+      <p>Learn new skills with our high-quality courses taught by industry experts</p>
+    </header>
+
+
+    <div id="searchResultsHeader" class="search-results-header">
+      <h2>Search Results for "<span id="searchTerm"></span>"</h2>
+      <p>Found <span id="resultsCount">0</span> courses matching your search</p>
+    </div>
+
+
+    <div id="noResults" class="no-results">
+      <h3>No courses found</h3>
+      <p>We couldn't find any courses matching your search. Try different keywords or browse our categories.</p>
+      <a href="courses.html" class="btn btn-primary">View All Courses</a>
+    </div>
+
+
+    <div class="courses-filter">
+      <button class="filter-btn active" data-filter="all">All Courses</button>
+      <button class="filter-btn" data-filter="web">Web Development</button>
+      <button class="filter-btn" data-filter="mobile">Mobile Development</button>
+      <button class="filter-btn" data-filter="data">Data Science</button>
+      <button class="filter-btn" data-filter="design">Design</button>
+      <button class="filter-btn" data-filter="business">Business</button>
+    </div>
+
+
+    <div class="courses-grid">
+
+      <div class="course-card" data-category="web">
+        <div class="course-image">
+          <img src="./photos/1.png" alt="JavaScript Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Web Development</span>
+          <h3 class="course-title">Modern JavaScript From Scratch</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">JS</div>
+            <span>Ahmed Refaat</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.8 (1.2k)</span>
+            </div>
+            <div class="course-price">$49.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline save-btn"><i class="far fa-heart"></i> Save</button>
+            <a href="course-details.html?id=1&title=modern-javascript-from-scratch" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="course-card" data-category="web">
+        <div class="course-image">
+          <img src="./photos/2.png" alt="Python Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Web Development</span>
+          <h3 class="course-title">Python for Beginners</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">PD</div>
+            <span>Ahmed Refaat</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.7 (980)</span>
+            </div>
+            <div class="course-price">$39.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline save-btn"><i class="far fa-heart"></i> Save</button>
+            <a href="course-details.html?id=2&title=python-for-beginners" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="course-card" data-category="mobile">
+        <div class="course-image">
+          <img src="./photos/3.png" alt="React Native Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Mobile Development</span>
+          <h3 class="course-title">React Native - The Practical Guide</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">AR</div>
+            <span>John Smith</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.9 (1.5k)</span>
+            </div>
+            <div class="course-price">$59.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline save-btn"><i class="far fa-heart"></i> Save</button>
+            <a href="course-details.html?id=3&title=react-native-practical-guide" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="course-card" data-category="data">
+        <div class="course-image">
+          <img src="./photos/4.png" alt="Data Science Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Data Science</span>
+          <h3 class="course-title">Data Science A-Z™</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">KT</div>
+            <span>Sara El-Mahdy</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.6 (850)</span>
+            </div>
+            <div class="course-price">$69.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline save-btn"><i class="far fa-heart"></i> Save</button>
+            <a href="course-details.html?id=4&title=data-science-az" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="course-card" data-category="design">
+        <div class="course-image">
+          <img src="./photos/5.png" alt="UI/UX Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Design</span>
+          <h3 class="course-title">UI/UX Design Fundamentals</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">LM</div>
+            <span>Ali Al-Husseini</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.5 (720)</span>
+            </div>
+            <div class="course-price">$44.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline save-btn"><i class="far fa-heart"></i> Save</button>
+            <a href="course-details.html?id=5&title=ui-ux-design-fundamentals" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="course-card" data-category="business">
+        <div class="course-image">
+          <img src="./photos/6.png" alt="Business Course">
+        </div>
+        <div class="course-info">
+          <span class="course-category">Business</span>
+          <h3 class="course-title">Digital Marketing Masterclass</h3>
+          <div class="course-instructor">
+            <div class="instructor-avatar">DW</div>
+            <span>Ali Al-Husseini</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i class="fas fa-star"></i>
+              <span>4.7 (1.1k)</span>
+            </div>
+            <div class="course-price">$54.99</div>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-outline save-btn"><i class="far fa-heart"></i> Save</button>
+            <a href="course-details.html?id=6&title=digital-marketing-masterclass" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="footer-container"></div>
+
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoryParam = urlParams.get('category');
+      const searchParam = urlParams.get('search');
+
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const courseCards = document.querySelectorAll('.course-card');
+      const searchResultsHeader = document.getElementById('searchResultsHeader');
+      const searchTermSpan = document.getElementById('searchTerm');
+      const resultsCountSpan = document.getElementById('resultsCount');
+      const noResultsDiv = document.getElementById('noResults');
+      const coursesFilter = document.querySelector('.courses-filter');
+
+      if (searchParam) {
+        const searchTerm = searchParam.toLowerCase();
+
+
+        if (searchResultsHeader) {
+          searchResultsHeader.style.display = 'block';
+          if (searchTermSpan) {
+            searchTermSpan.textContent = searchParam;
+          }
+        }
+
+
+        if (coursesFilter) {
+          coursesFilter.style.display = 'none';
+        }
+
+
+        let resultsCount = 0;
+
+
+        courseCards.forEach(card => {
+          const title = card.querySelector('.course-title').textContent.toLowerCase();
+          const instructor = card.querySelector('.course-instructor span').textContent.toLowerCase();
+          const category = card.querySelector('.course-category').textContent.toLowerCase();
+
+          if (title.includes(searchTerm) ||
+              instructor.includes(searchTerm) ||
+              category.includes(searchTerm)) {
+            card.style.display = 'block';
+            resultsCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+
+        if (resultsCountSpan) {
+          resultsCountSpan.textContent = resultsCount;
+        }
+
+
+        if (resultsCount === 0 && noResultsDiv) {
+          noResultsDiv.style.display = 'block';
+        }
+      }
+
+      else if (categoryParam) {
+        filterBtns.forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.getAttribute('data-filter') === categoryParam) {
+            btn.classList.add('active');
+          }
+        });
+
+        courseCards.forEach(card => {
+          if (categoryParam === 'all' || card.getAttribute('data-category') === categoryParam) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+
+          filterBtns.forEach(b => b.classList.remove('active'));
+
+          this.classList.add('active');
+
+          const filter = this.getAttribute('data-filter');
+
+
+          const newUrl = window.location.pathname + '?category=' + filter;
+          window.history.pushState({ path: newUrl }, '', newUrl);
+
+          courseCards.forEach(card => {
+            if (filter === 'all' || card.getAttribute('data-category') === filter) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+
+      const enrollBtns = document.querySelectorAll('.btn-primary');
+      enrollBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          if (!this.getAttribute('href')) {
+            e.preventDefault();
+            alert('Course enrollment functionality will be implemented soon!');
+          }
+        });
+      });
+    });
+  </script>
+
+  <script>
+
+    function initSavedCoursesFeature() {
+
+      const savedCoursesDropdown = document.querySelector('.saved-courses-dropdown');
+      const savedCoursesList = document.querySelector('.saved-courses-list');
+      const savedCoursesCount = document.querySelector('.icon-badge');
+
+
+      const saveButtons = document.querySelectorAll('.save-btn');
+
+      let savedCourses = [];
+      try {
+        const savedCoursesData = localStorage.getItem('savedCourses');
+        if (savedCoursesData) {
+          savedCourses = JSON.parse(savedCoursesData);
+        }
+      } catch (error) {
+        console.error('Error loading saved courses:', error);
+        localStorage.removeItem('savedCourses');
+      }
+
+
+      function updateSavedCoursesUI() {
+
+        if (savedCoursesCount) {
+          savedCoursesCount.textContent = savedCourses.length;
+        }
+
+
+        if (savedCoursesList) {
+          savedCoursesList.innerHTML = '';
+
+
+          if (savedCourses.length === 0) {
+            savedCoursesList.innerHTML = '<p style="text-align: center; padding: 10px;">No saved courses yet.</p>';
+            return;
+          }
+
+
+          savedCourses.forEach(course => {
+            const courseItem = document.createElement('div');
+            courseItem.className = 'saved-course-item';
+            courseItem.style.display = 'flex';
+            courseItem.style.alignItems = 'center';
+            courseItem.style.padding = '10px';
+            courseItem.style.borderBottom = '1px solid #eee';
+
+
+            const courseSlug = course.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+            courseItem.innerHTML = `
+              <img src="${course.image}" alt="${course.title}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;">
+              <div style="flex: 1;">
+                <h5 style="margin: 0; font-size: 14px;">${course.title}</h5>
+                <p style="margin: 5px 0 0; font-size: 12px; color: #7f8c8d;">${course.instructor}</p>
+                <a href="course-details.html?id=${course.id}&title=${encodeURIComponent(courseSlug)}" class="btn btn-outline" style="padding: 5px 10px; font-size: 12px;">View Details</a>
+              </div>
+              <button class="remove-course" data-id="${course.id}" style="background: none; border: none; color: #e74c3c; cursor: pointer;">
+                <i class="fas fa-times"></i>
+              </button>
+            `;
+
+            savedCoursesList.appendChild(courseItem);
+          });
+
+
+          const removeButtons = document.querySelectorAll('.remove-course');
+          if (removeButtons.length > 0) {
+            removeButtons.forEach(button => {
+              button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const courseId = this.getAttribute('data-id');
+                if (courseId) {
+                  removeCourse(courseId);
+                }
+              });
+            });
+          }
+        }
+
+
+        updateSaveButtons();
+      }
+
+
+      function saveCourse(courseElement) {
+        try {
+          const courseCard = courseElement.closest('.course-card');
+          if (!courseCard) return;
+
+          const courseTitle = courseCard.querySelector('.course-title')?.textContent;
+          const courseInstructor = courseCard.querySelector('.course-instructor span')?.textContent;
+          const courseImageElement = courseCard.querySelector('.course-image img');
+          const coursePriceElement = courseCard.querySelector('.course-price');
+          const courseLink = courseCard.querySelector('.btn-primary')?.getAttribute('href');
+
+          if (!courseTitle || !courseInstructor || !courseImageElement || !coursePriceElement || !courseLink) {
+            console.error('Missing course information');
+            return;
+          }
+
+
+          const courseIdMatch = courseLink.match(/id=([^&]+)/);
+          const courseId = courseIdMatch ? courseIdMatch[1] : Date.now().toString();
+
+          const courseImage = courseImageElement.src;
+          const coursePrice = coursePriceElement.textContent;
+
+
+          const existingCourse = savedCourses.find(course => course.title === courseTitle);
+          if (existingCourse) {
+            return;
+          }
+
+
+          savedCourses.push({
+            id: courseId,
+            title: courseTitle,
+            instructor: courseInstructor,
+            image: courseImage,
+            price: coursePrice
+          });
+
+
+          localStorage.setItem('savedCourses', JSON.stringify(savedCourses));
+
+          updateSavedCoursesUI();
+
+
+          courseElement.innerHTML = '<i class="fas fa-heart"></i> Saved';
+          courseElement.style.color = '#e74c3c';
+          courseElement.style.borderColor = '#e74c3c';
+          courseElement.dataset.saved = 'true';
+        } catch (error) {
+          console.error('Error saving course:', error);
+        }
+      }
+
+
+      function removeCourse(courseId) {
+        try {
+
+          savedCourses = savedCourses.filter(course => course.id !== courseId);
+
+
+          localStorage.setItem('savedCourses', JSON.stringify(savedCourses));
+
+
+          updateSavedCoursesUI();
+        } catch (error) {
+          console.error('Error removing course:', error);
+        }
+      }
+
+
+      function updateSaveButtons() {
+        if (!saveButtons || saveButtons.length === 0) return;
+
+        try {
+          saveButtons.forEach(button => {
+            const courseCard = button.closest('.course-card');
+            if (!courseCard) return;
+
+            const courseTitle = courseCard.querySelector('.course-title')?.textContent;
+            if (!courseTitle) return;
+
+
+            const isSaved = savedCourses.some(course => course.title === courseTitle);
+
+            if (isSaved) {
+              button.innerHTML = '<i class="fas fa-heart"></i> Saved';
+              button.style.color = '#e74c3c';
+              button.style.borderColor = '#e74c3c';
+              button.dataset.saved = 'true';
+            } else {
+              button.innerHTML = '<i class="far fa-heart"></i> Save';
+              button.style.color = '';
+              button.style.borderColor = '';
+              button.dataset.saved = 'false';
+            }
+          });
+        } catch (error) {
+          console.error('Error updating save buttons:', error);
+        }
+      }
+
+
+      function addSaveButtonListeners() {
+        if (!saveButtons || saveButtons.length === 0) return;
+
+        try {
+          saveButtons.forEach(button => {
+
+            const newButton = button.cloneNode(true);
+            button.parentNode.replaceChild(newButton, button);
+
+            newButton.addEventListener('click', function(e) {
+              e.preventDefault();
+
+              const isSaved = this.dataset.saved === 'true';
+
+              if (isSaved) {
+                try {
+
+                  const courseCard = this.closest('.course-card');
+                  if (!courseCard) return;
+
+                  const courseTitle = courseCard.querySelector('.course-title')?.textContent;
+                  if (!courseTitle) return;
+
+                  const course = savedCourses.find(course => course.title === courseTitle);
+                  if (course) {
+                    removeCourse(course.id);
+                  }
+
+
+                  this.innerHTML = '<i class="far fa-heart"></i> Save';
+                  this.style.color = '';
+                  this.style.borderColor = '';
+                  this.dataset.saved = 'false';
+                } catch (error) {
+                  console.error('Error unsaving course:', error);
+                }
+              } else {
+                saveCourse(this);
+              }
+            });
+          });
+        } catch (error) {
+          console.error('Error adding save button listeners:', error);
+        }
+      }
+
+
+      try {
+        updateSavedCoursesUI();
+        addSaveButtonListeners();
+      } catch (error) {
+        console.error('Error initializing saved courses feature:', error);
+      }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initSavedCoursesFeature, 100);
+    });
+
+
+    document.addEventListener('navbarLoaded', function() {
+      setTimeout(initSavedCoursesFeature, 100);
+    });
+
+
+    window.addEventListener('load', function() {
+      setTimeout(initSavedCoursesFeature, 500);
+    });
+  </script>
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('nav.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('navbar-container').innerHTML = data;
+
+
+          const event = new Event('navbarLoaded');
+          document.dispatchEvent(event);
+
+
+          if (!document.querySelector('script[src="nav.js"]')) {
+            const script = document.createElement('script');
+            script.src = 'nav.js';
+            document.body.appendChild(script);
+          }
+        });
+    });
+  </script>
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('footer.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('footer-container').innerHTML = data;
+        });
+    });
+  </script>
+</body>
+</html>
